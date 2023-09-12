@@ -1,0 +1,39 @@
+h1 {
+  margin-bottom: 1rem;
+}
+
+input {
+  padding: 0.75rem;
+  border: 1px solid #213547;
+  border-radius: 0.5rem;
+}
+
+form,
+div {
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  gap: 0.5rem;
+}
+
+div {
+  border: none;
+}
+
+button {
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  width: 100%;
+  border: 1px solid #213547;
+  transition: all 350ms ease-in-out;
+
+  color: #f9f9f9;
+  background-color: #213547;
+}

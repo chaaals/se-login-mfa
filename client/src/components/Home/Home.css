@@ -1,0 +1,42 @@
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 350px;
+  padding: 1.5rem 0;
+
+  border-bottom: 1px solid #213547;
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  width: 120px;
+  border: 1px solid #213547;
+  transition: all 350ms ease-in-out;
+}
+
+.sign-up {
+  color: #213547;
+  background-color: #f9f9f9;
+}
+
+/* .sign-up:hover {
+    color: #f9f9f9;
+    background-color: #213547;
+  } */
+
+.log-in {
+  color: #f9f9f9;
+  background-color: #213547;
+}
+
+/* .log-in:hover {
+    color: #213547;
+    background-color: #f9f9f9;
+  } */
