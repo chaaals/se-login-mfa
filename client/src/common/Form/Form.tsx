@@ -10,7 +10,7 @@ interface Props {
 const Form: FC<Props> = ({ children, heading, onSubmit }) => {
   return (
     <main>
-      <section>
+      <section className="form-container">
         <h1>{heading}</h1>
         <form className="sign-up-form" onSubmit={onSubmit}>
           {children}
