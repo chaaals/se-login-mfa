@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Home from "./components/Home/Home.tsx";
 import Signup from "./components/Signup/Signup.tsx";
-import Login from "./components/Login.tsx";
+import Login from "./components/Login/Login.tsx";
 import Footer from "./components/Footer";
 import "./index.css";
 
