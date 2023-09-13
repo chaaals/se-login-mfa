@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, FormEvent } from "react";
 import Form from "../common/Form";
 
 import useFormInput, { LoginInput } from "../hooks/useFormInput";
@@ -9,8 +9,15 @@ const Login: FC = () => {
     password: "",
   });
 
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // check password logic
+
+    // otp logic
+  };
+
   return (
-    <Form heading="Log in" onSubmit={() => console.log("lols")}>
+    <Form heading="Log in" onSubmit={onSubmit}>
       <div>
         <label htmlFor="first-name">Username</label>
         <input

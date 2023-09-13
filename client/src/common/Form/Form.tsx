@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, FormEvent } from "react";
 import "./Form.css";
 
 interface Props {
   children: React.ReactNode;
   heading: string;
-  onSubmit: () => void;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 }
 
 const Form: FC<Props> = ({ children, heading, onSubmit }) => {
