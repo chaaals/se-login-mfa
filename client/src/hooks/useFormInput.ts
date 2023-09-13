@@ -17,6 +17,7 @@ export type SignupInput = {
 interface FormInput<T> {
   input: T;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  resetForm: (initValue: T) => void;
 }
 
 function useFormInput<T extends LoginInput | SignupInput>(
@@ -33,7 +34,9 @@ function useFormInput<T extends LoginInput | SignupInput>(
     }));
   };
 
-  return { input, handleChange };
+  const resetForm = (initValue: T) => setInput(initValue);
+
+  return { input, handleChange, resetForm };
 }
 
 export default useFormInput;
