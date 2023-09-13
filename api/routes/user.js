@@ -19,9 +19,19 @@ router.get("/:username", async (req, res) => {
   const user = await User.find({ username: req.params.username });
 
   if (user.length > 0) {
-    res.status(200).send(user);
+    res.status(200).send(user[0]);
   } else {
     res.status(200).send({});
+  }
+});
+
+router.post("/:username", async (req, res) => {
+  const [user] = await User.find({ username: req.params.username });
+
+  if (!user?.username || user?.password !== req?.body?.password) {
+    res.status(200).send({});
+  } else {
+    res.status(200).send(user);
   }
 });
 
