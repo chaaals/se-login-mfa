@@ -14,13 +14,17 @@ export type SignupInput = {
   confirm_password: string;
 };
 
+export type OTPInput = {
+  otp: string;
+};
+
 interface FormInput<T> {
   input: T;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   resetForm: (initValue: T) => void;
 }
 
-function useFormInput<T extends LoginInput | SignupInput>(
+function useFormInput<T extends LoginInput | SignupInput | OTPInput>(
   initialValue: T
 ): FormInput<T> {
   const [input, setInput] = useState(initialValue);

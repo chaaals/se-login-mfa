@@ -1,0 +1,13 @@
+.otp-error {
+  flex-direction: column;
+}
+
+.invalid {
+  border: 1px solid orangered;
+  outline: orangered;
+}
+
+.invalid::after {
+  content: "Please input the correct one-time password";
+  color: orangered;
+}

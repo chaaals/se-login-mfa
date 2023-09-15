@@ -1,0 +1,9 @@
+.dashboard-main {
+  flex-direction: column;
+  padding: 1rem;
+  justify-content: space-between;
+}
+
+.dashboard-nav {
+  align-self: flex-start;
+}

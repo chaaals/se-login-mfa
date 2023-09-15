@@ -4,6 +4,7 @@ import Form from "../../common/Form";
 import useFormInput, { SignupInput } from "../../hooks/useFormInput";
 import clsx from "clsx";
 
+import { UserType } from "../../types";
 import Toast from "../../common/Toast";
 
 import "./Signup.css";
@@ -27,6 +28,7 @@ const Signup: FC = () => {
   } = useFormInput<SignupInput>(INIT_VALUE);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isInvalidCredentials, setIsInvalidCredentials] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -35,13 +37,9 @@ const Signup: FC = () => {
       return;
     }
 
-    // username logic
-    // email logic
-
-    // submit logic
     setIsLoading(true);
     try {
-      await fetch(USER_ENDPOINT, {
+      const res = await fetch(USER_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +53,13 @@ const Signup: FC = () => {
         }),
       });
 
-      resetForm(INIT_VALUE);
+      const data = (await res.json()) as UserType;
+
+      if (data.username) {
+        resetForm(INIT_VALUE);
+      } else {
+        setIsInvalidCredentials(true);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -76,6 +80,7 @@ const Signup: FC = () => {
             disabled={isLoading}
             name="username"
             id="username"
+            className={clsx(isInvalidCredentials && "invalid")}
             placeholder="Enter your first name"
             value={signUpInput.username}
             onChange={handleChange}
@@ -115,6 +120,7 @@ const Signup: FC = () => {
             disabled={isLoading}
             name="email"
             id="email"
+            className={clsx(isInvalidCredentials && "invalid")}
             type="email"
             placeholder="Enter your email"
             value={signUpInput.email}
@@ -158,7 +164,13 @@ const Signup: FC = () => {
           />
         </div>
       </Form>
-      {isToastVisible && <Toast>User has been created!</Toast>}
+      {isToastVisible && (
+        <Toast>
+          {isInvalidCredentials
+            ? "Username or Email was already taken."
+            : "User has been created!"}
+        </Toast>
+      )}
     </>
   );
 };

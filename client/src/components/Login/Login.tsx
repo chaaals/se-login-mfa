@@ -1,4 +1,5 @@
 import { FC, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import Form from "../../common/Form";
 
@@ -8,13 +9,15 @@ import { UserType } from "../../types";
 
 import "./Login.css";
 
-const USER_ENDPOINT = import.meta.env.VITE_PROJECT_API + "/user/";
+const USER_ENDPOINT = import.meta.env.VITE_PROJECT_API + "/user/login/";
 
 const Login: FC = () => {
   const { input: loginInput, handleChange } = useFormInput<LoginInput>({
     username: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const [isWrongCredentials, setIsWrongCredentials] = useState(false);
 
@@ -27,7 +30,7 @@ const Login: FC = () => {
 
     // check password logic
     const res = await fetch(USER_ENDPOINT + loginInput.username, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -45,10 +48,10 @@ const Login: FC = () => {
 
     if (isWrongCredentials) {
       setIsWrongCredentials(false);
-      console.log("successfully logged in");
     }
 
-    // otp logic
+    console.log("successfully logged in");
+    navigate(`/log-in/otp?username=${user.username}`);
   };
 
   return (
