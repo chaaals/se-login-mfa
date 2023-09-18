@@ -6,6 +6,7 @@ export interface UserType {
   email: string;
   password: string;
   otp: string;
+  verified: boolean;
   __v: number;
 }
 

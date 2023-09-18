@@ -2,3 +2,33 @@
   border: 1px solid orangered;
   outline: orangered;
 }
+
+.invalid-message {
+  font-size: 0.75rem;
+  color: orangered;
+}
+
+.verify-container {
+  flex-direction: column;
+}
+
+.verify-button {
+  font-weight: bold;
+  width: 150px;
+}
+
+.breadcrumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 99;
+
+  background-color: transparent;
+  color: #213547;
+  border: none;
+  width: 150px;
+}

@@ -2,22 +2,39 @@ import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
+import { UserType } from "../../types";
+
 import "./Dashboard.css";
 
-type TUserCookie = {
-  name: string;
+type TUserTokenCookie = {
+  token: string;
 };
+
+const USER_ENDPOINT = import.meta.env.VITE_PROJECT_API + "/user/login/";
 
 const Dashboard: FC = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<TUserCookie | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    const getUser = () => {
-      const u = Cookies.get("user") ?? "";
+    const getUser = async () => {
+      const token = Cookies.get("token") ?? "";
 
-      if (u) {
-        setUser(JSON.parse(u) as TUserCookie);
+      if (token) {
+        const secret = JSON.parse(token) as TUserTokenCookie;
+
+        const res = await fetch(USER_ENDPOINT + secret.token, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const user = (await res.json()) as UserType;
+
+        if (user.username) {
+          setUser(user);
+        }
       } else {
         navigate("/");
       }
@@ -26,14 +43,22 @@ const Dashboard: FC = () => {
     getUser();
   }, [navigate]);
 
+  if (!user) {
+    return (
+      <main>
+        <h1>Loading...</h1>
+      </main>
+    );
+  }
+
   return (
     <main className="dashboard-main">
-      <nav className="dashboard-nav">{user && `Welcome, ${user.name}`}</nav>
+      <nav className="dashboard-nav">{user && `Welcome, ${user.username}`}</nav>
 
       <button
         onClick={() => {
-          Cookies.remove("user");
-          navigate("/");
+          Cookies.remove("token");
+          navigate("/", { replace: true });
         }}
       >
         Log out

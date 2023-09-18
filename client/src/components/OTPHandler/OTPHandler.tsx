@@ -1,13 +1,20 @@
 import { FC, FormEvent, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import Cookies from "js-cookie";
+import { getToken } from "../../util";
 import Form from "../../common/Form";
 import useFormInput, { OTPInput } from "../../hooks/useFormInput";
 
 import { UserType } from "../../types";
 
 import "./OTPHandler.css";
+
+type TUserToken = {
+  token: string;
+};
+
+type TUserResponse = UserType & TUserToken;
 
 const USER_ENDPOINT = import.meta.env.VITE_PROJECT_API + "/user/verify/";
 
@@ -16,16 +23,13 @@ const INIT_VALUE = {
 };
 
 const OTPHandler: FC = () => {
-  const {
-    input: otpInput,
-    handleChange,
-    resetForm,
-  } = useFormInput<OTPInput>(INIT_VALUE);
+  const { input: otpInput, handleChange } = useFormInput<OTPInput>(INIT_VALUE);
 
   const navigate = useNavigate();
 
-  const [searchParams] = useSearchParams();
   const [isInvalid, setIsInvalid] = useState(false);
+
+  const { token } = getToken();
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,9 +38,7 @@ const OTPHandler: FC = () => {
       return;
     }
 
-    const username = searchParams.get("username");
-
-    const res = await fetch(USER_ENDPOINT + username, {
+    const res = await fetch(USER_ENDPOINT + token, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,20 +48,20 @@ const OTPHandler: FC = () => {
       }),
     });
 
-    const user = (await res.json()) as UserType;
+    const user = (await res.json()) as TUserResponse;
 
     if (user.username) {
-      Cookies.set("user", JSON.stringify({ name: user.username }), {
+      Cookies.set("token", JSON.stringify({ token: user.token }), {
         expires: 1,
+        sameSite: "strict",
       });
       navigate("/dashboard");
     } else {
       setIsInvalid(true);
-      resetForm(INIT_VALUE);
     }
   };
 
-  if (!searchParams.has("username") || !searchParams.get("username")) {
+  if (!token) {
     return (
       <main className="otp-error">
         <h1>Oops, something went wrong.</h1>
@@ -74,7 +76,6 @@ const OTPHandler: FC = () => {
   return (
     <Form heading="One-time Password" onSubmit={onSubmit}>
       <div>
-        <span>{"OTP - "}</span>
         <input
           required
           name="otp"

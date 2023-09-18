@@ -1,13 +1,13 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
 import "./Toast.css";
 
 interface Props {
-  children: React.ReactNode;
+  heading: string;
 }
 
-const Toast: FC<Props> = ({ children }) => {
-  return <div className="toast">{children}</div>;
+const Toast: FC<Props> = ({ heading }) => {
+  return <div className="toast">{heading}</div>;
 };
 
 export default Toast;
